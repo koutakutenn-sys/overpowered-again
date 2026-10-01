@@ -19,7 +19,8 @@
     "description": {
       "translate": "advancements.overpowered_again.overpowered_again.description"
     },
-    "frame": "task",
+    "frame": "challenge",
+    "background": "overpowered_again:textures/gui/advancements/missingno.png",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false
