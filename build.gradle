@@ -13,6 +13,9 @@ dependencies {
     // The loader has to be on the runtime classpath as well, otherwise KnotServer is missing when
     // the development server starts; it is not packaged into the built jar.
     implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    // Loader alone does not mount assets/data. Bundle the resource loader and its base module.
+    implementation include("net.fabricmc.fabric-api:fabric-resource-loader-v1:2.0.13+9edec1269e")
+    implementation include("net.fabricmc.fabric-api:fabric-api-base:2.0.4+ece063239e")
     compileOnly "net.fabricmc:sponge-mixin:0.17.4+mixin.0.8.7"
     // Deliberately no Mixin annotation processor: sponge-mixin 0.17.4 ships only MCP and FG3
     // obfuscation services, so the processor cannot resolve intermediary names for 26.2 and fails
@@ -44,6 +47,7 @@ configurations {
     integrationTestImplementation.extendsFrom implementation
     integrationTestRuntimeOnly.extendsFrom runtimeOnly
 }
+def integrationTestDirectory = "run-test/run-${System.currentTimeMillis()}"
 loom {
     mods {
         overpowered_again { sourceSet sourceSets.main }
@@ -54,27 +58,27 @@ loom {
             server()
             name 'Overpowered Again Integration Tests'
             source sourceSets.integrationTest
-            runDir 'run-test'
+            runDir integrationTestDirectory
         }
     }
 }
 tasks.named('runIntegrationTest') {
     doFirst {
-        mkdir 'run-test'
+        mkdir integrationTestDirectory
         copy {
             from 'test-server.properties'
-            into 'run-test'
+            into integrationTestDirectory
             rename { 'server.properties' }
         }
         if (providers.gradleProperty('acceptMinecraftEula').orNull == 'true') {
-            file('run-test/eula.txt').text = 'eula=true\n'
+            file("${integrationTestDirectory}/eula.txt").text = 'eula=true\n'
         }
-        delete file('run-test/test-result.txt')
+        logger.lifecycle("Integration test directory: ${integrationTestDirectory}")
     }
     doLast {
-        def result = file('run-test/test-result.txt')
+        def result = file("${integrationTestDirectory}/test-result.txt")
         if (!result.exists() || !result.text.startsWith('PASS')) {
-            throw new GradleException('Integration tests did not pass; inspect run-test/logs/latest.log')
+            throw new GradleException("Integration tests did not pass; inspect ${integrationTestDirectory}/logs/latest.log")
         }
     }
 }

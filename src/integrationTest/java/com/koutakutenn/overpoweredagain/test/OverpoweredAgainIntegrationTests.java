@@ -9,6 +9,7 @@ import com.koutakutenn.overpoweredagain.OverpoweredEffects;
 
 import net.fabricmc.loader.api.FabricLoader;
 
+import net.minecraft.advancements.triggers.ConsumeItemTrigger;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -87,6 +88,19 @@ public final class OverpoweredAgainIntegrationTests {
         // 4. The custom advancement has to be present in the datapack-backed advancement manager.
         var advancement = server.getAdvancements().get(ADVANCEMENT_ID);
         check(advancement != null, "advancement " + ADVANCEMENT_ID + " is loaded");
+        if (advancement != null) {
+            var criterion = advancement.value().criteria().get("eat_enchanted_golden_apple");
+            check(criterion != null && criterion.triggerInstance() instanceof ConsumeItemTrigger.TriggerInstance,
+                    "advancement uses the consume_item trigger");
+            if (criterion != null && criterion.triggerInstance() instanceof ConsumeItemTrigger.TriggerInstance consume) {
+                check(consume.matches(new ItemStack(Items.ENCHANTED_GOLDEN_APPLE)),
+                        "advancement predicate accepts enchanted golden apples");
+                check(!consume.matches(new ItemStack(Items.GOLDEN_APPLE)),
+                        "advancement predicate rejects regular golden apples");
+                check(!consume.matches(new ItemStack(Items.APPLE)),
+                        "advancement predicate rejects regular apples");
+            }
+        }
         var matching = server.getAdvancements().getAllAdvancements().stream()
                 .filter(holder -> holder.id().toString().contains("overpowered"))
                 .map(holder -> holder.id().toString())
@@ -107,6 +121,7 @@ public final class OverpoweredAgainIntegrationTests {
         boolean probe = server.getAdvancements()
                 .get(Identifier.fromNamespaceAndPath("overpowered_again_test", "probe")) != null;
         NOTES.add("test-mod probe advancement loaded: " + probe);
+        check(probe, "test-mod probe advancement is loaded");
 
         NOTES.add("advancement " + ADVANCEMENT_ID + " gets its title and description from "
                 + "advancements.overpowered_again.overpowered_again.title/.description");
