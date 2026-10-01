@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "overpowered_again",
+  "version": "${version}",
+  "name": "Overpowered Again",
+  "description": "Makes the enchanted golden apple grant Regeneration IV for 30s, Absorption IV for 2m, Resistance I for 5m and Fire Resistance I for 5m.",
+  "environment": "*",
+  "license": "MIT",
+  "icon": "assets/overpowered_again/icon.png",
+  "mixins": ["overpowered_again.mixins.json"],
+  "depends": {
+    "fabricloader": ">=0.19.5",
+    "minecraft": "26.2",
+    "java": ">=25"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "overpowered_again_test",
+  "version": "1.0.0",
+  "name": "Overpowered Again Integration Tests",
+  "environment": "server",
+  "mixins": ["overpowered_again_test.mixins.json"],
+  "depends": {
+    "overpowered_again": "*"
+  }
+}

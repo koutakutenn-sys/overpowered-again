@@ -1,0 +1,32 @@
+{
+  "criteria": {
+    "eat_enchanted_golden_apple": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": "minecraft:enchanted_golden_apple"
+        }
+      }
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "minecraft:enchanted_golden_apple"
+    },
+    "title": {
+      "translate": "advancements.overpowered_again.overpowered_again.title"
+    },
+    "description": {
+      "translate": "advancements.overpowered_again.overpowered_again.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "requirements": [
+    [
+      "eat_enchanted_golden_apple"
+    ]
+  ]
+}
