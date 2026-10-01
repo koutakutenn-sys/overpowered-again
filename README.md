@@ -1,5 +1,7 @@
 # Overpowered Again
 
+**English** · [简体中文](README.zh-CN.md) · [繁體中文](README.zh-HK.md)
+
 A small Fabric mod for **Minecraft 26.2** that reworks the enchanted golden apple.
 
 Eating an enchanted golden apple now grants:
@@ -15,7 +17,9 @@ In vanilla 26.2 the last three are already exactly these values; the change is R
 which goes from level II for 20s to level IV for 30s. The full list is written out explicitly so the
 behaviour does not silently drift if vanilla numbers change.
 
-The mod also adds a custom advancement:
+## Advancement
+
+The mod adds one advancement:
 
 - **Title:** Overpowered Again
 - **Description:** Eat an enchanted golden apple
@@ -29,14 +33,21 @@ consume effects, and `Consumable#onConsume` applies them through `onConsumeEffec
 other part of eating untouched: particles, sounds, statistics, the `consume_item` advancement
 trigger and the item consumption itself.
 
-Target values live in one place: `src/main/java/com/koutakutenn/overpoweredagain/OverpoweredEffects.java`.
+Target values live in one place:
+`src/main/java/com/koutakutenn/overpoweredagain/OverpoweredEffects.java`.
 
 ## Requirements
 
 - Minecraft 26.2
 - Fabric Loader 0.19.5 or newer
 - Java 25 or newer
-- No Fabric API required
+- No separate Fabric API installation required: the jar bundles Fabric Resource Loader v1 and
+  Fabric API Base, which load the mod's data and language resources.
+
+## Installation
+
+Put the jar in the instance's `mods` folder and restart the game. The mod is not hot-loaded, so a
+full restart is required.
 
 ## Building
 
@@ -53,22 +64,17 @@ The jar lands in `build/libs/`.
 ./gradlew runIntegrationTest -PacceptMinecraftEula=true
 ```
 
-This starts a real development server and checks the effects, the vanilla values being replaced and
-the custom advancement. The result is written to `run-test/test-result.txt`.
+This starts a real development server and checks the effects, the vanilla values being replaced, the
+custom advancement and its item predicate. Each invocation uses a fresh directory printed by Gradle;
+the result is written to `run-test/run-<timestamp>/test-result.txt`, and older results are retained.
 
-Known issue: the development server does not shut down after the checks, so the Gradle task hangs
-and has to be stopped with `pkill -9 -f overpowered-again`. See
-[HANDOFF-advancement-not-loaded.md](HANDOFF-advancement-not-loaded.md).
-
-## Status
-
-- Verified in a development server: the four effects, and the vanilla values being replaced.
-- **Not working yet:** the custom advancement is not loaded by the server. The mod data pack is not
-  discovered at all (`PackRepository` only lists `vanilla` and the three built-in experimental
-  packs). Details, evidence and suggested investigation are in
-  [HANDOFF-advancement-not-loaded.md](HANDOFF-advancement-not-loaded.md).
-- Not tested in a real client (`runClient`) or installed in a normal game instance yet.
+The test requests a normal server shutdown with `halt(false)` after the checks, returning to the
+server loop instead of calling `System.exit` from the server thread.
 
 ## License
 
-MIT, see [LICENSE](LICENSE).
+The mod is released into the public domain under the [Unlicense](https://unlicense.org), which the
+Fabric metadata declares. You may alternatively use it under the
+[MIT License](https://opensource.org/license/mit) if you prefer.
+
+See [LICENSE](LICENSE) and [LICENSE-MIT](LICENSE-MIT).
