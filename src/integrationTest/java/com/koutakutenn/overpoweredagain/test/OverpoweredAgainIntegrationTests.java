@@ -85,8 +85,29 @@ public final class OverpoweredAgainIntegrationTests {
                 new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 5 * 60 * 20, 0)), vanillaEffects);
 
         // 4. The custom advancement has to be present in the datapack-backed advancement manager.
-        check(server.getAdvancements().get(ADVANCEMENT_ID) != null,
-                "advancement " + ADVANCEMENT_ID + " is loaded");
+        var advancement = server.getAdvancements().get(ADVANCEMENT_ID);
+        check(advancement != null, "advancement " + ADVANCEMENT_ID + " is loaded");
+        var matching = server.getAdvancements().getAllAdvancements().stream()
+                .filter(holder -> holder.id().toString().contains("overpowered"))
+                .map(holder -> holder.id().toString())
+                .toList();
+        NOTES.add("advancements whose id contains 'overpowered': " + matching);
+        NOTES.add("sample vanilla advancement ids: " + server.getAdvancements().getAllAdvancements().stream()
+                .limit(3).map(holder -> holder.id().toString()).toList());
+
+        // Diagnostics: which data packs the server discovered and enabled at all.
+        var packs = server.getPackRepository();
+        NOTES.add("available data packs: " + packs.getAvailableIds());
+        NOTES.add("selected data packs: " + packs.getSelectedIds());
+        NOTES.add("available pack titles: " + packs.getAvailablePacks().stream()
+                .map(pack -> pack.getId() + "=" + pack.getTitle().getString()).toList());
+
+        // Control: the same JSON shipped by the test mod under its own namespace. If this one also
+        // fails to load, the problem is the mod data pack mechanism, not the advancement contents.
+        boolean probe = server.getAdvancements()
+                .get(Identifier.fromNamespaceAndPath("overpowered_again_test", "probe")) != null;
+        NOTES.add("test-mod probe advancement loaded: " + probe);
+
         NOTES.add("advancement " + ADVANCEMENT_ID + " gets its title and description from "
                 + "advancements.overpowered_again.overpowered_again.title/.description");
 

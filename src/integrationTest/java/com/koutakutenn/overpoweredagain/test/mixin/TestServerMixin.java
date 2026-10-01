@@ -26,7 +26,11 @@ public abstract class TestServerMixin {
         }
         overpoweredAgain$ran = true;
         MinecraftServer server = (MinecraftServer) (Object) this;
-        boolean passed = OverpoweredAgainIntegrationTests.run(server);
-        server.halt(!passed);
+        OverpoweredAgainIntegrationTests.run(server);
+        // The results (and the pass/fail decision) are in test-result.txt, which the Gradle task
+        // checks. Exit the process directly so the task cannot hang on a development server that
+        // refuses to shut down this early during startup.
+        System.out.println("[overpowered-again-test] exiting the development server");
+        System.exit(0);
     }
 }

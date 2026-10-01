@@ -1,0 +1,23 @@
+{
+  "criteria": {
+    "probe": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "display": {
+    "icon": {
+      "id": "minecraft:stick"
+    },
+    "title": "Probe",
+    "description": "Control advancement shipped by the test mod",
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": true
+  },
+  "requirements": [
+    [
+      "probe"
+    ]
+  ]
+}
