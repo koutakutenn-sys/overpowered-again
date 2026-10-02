@@ -1,5 +1,15 @@
 {
   "overpowered_again.description": "附魔金苹果给予：生命恢复 IV（30 秒）、伤害吸收 IV（2 分钟）、抗性提升 I（5 分钟）、抗火 I（5 分钟）。",
   "advancements.overpowered_again.overpowered_again.title": "再度君临",
-  "advancements.overpowered_again.overpowered_again.description": "吃下一个附魔金苹果"
+  "advancements.overpowered_again.overpowered_again.description": "吃下一个附魔金苹果",
+  "overpowered_again.config.title": "Overpowered Again 设置",
+  "overpowered_again.config.recipe": "1. 附魔金苹果旧版合成表：%s",
+  "overpowered_again.config.texture": "2. 附魔金苹果纹理：%s",
+  "overpowered_again.config.legacy": "旧版纹理",
+  "overpowered_again.config.modern": "新版纹理",
+  "overpowered_again.config.serverNote": "多人游戏的合成表由服务器控制。",
+  "overpowered_again.config.saveError": "设置保存失败，请查看日志。",
+  "overpowered_again.config.reloadError": "合成表重载失败，请重新进入世界。",
+  "advancements.overpowered_again.overpowered.title": "君临天下",
+  "advancements.overpowered_again.overpowered.description": "合成一个附魔金苹果"
 }

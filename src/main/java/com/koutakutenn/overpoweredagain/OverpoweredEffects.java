@@ -64,9 +64,11 @@ public final class OverpoweredEffects {
     }
 
     /**
-     * @return the immutable list of effects to apply, in the order they should be applied
+     * @return fresh effect instances in an immutable list, in application order
      */
     public static List<MobEffectInstance> enchantedGoldenAppleEffects() {
-        return ENCHANTED_GOLDEN_APPLE_EFFECTS;
+        // LivingEntity stores these mutable instances and decrements their durations in place.
+        // Never give it the templates: later apples and other eaters need independent clocks.
+        return ENCHANTED_GOLDEN_APPLE_EFFECTS.stream().map(MobEffectInstance::new).toList();
     }
 }

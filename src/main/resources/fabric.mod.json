@@ -3,10 +3,15 @@
   "id": "overpowered_again",
   "version": "${version}",
   "name": "Overpowered Again",
-  "description": "Makes the enchanted golden apple grant Regeneration IV for 30s, Absorption IV for 2m, Resistance I for 5m and Fire Resistance I for 5m.",
+  "description": "Restores configurable enchanted golden apple crafting, the Overpowered achievement and classic texture, with Regeneration IV for 30s, Absorption IV for 2m, Resistance I for 5m and Fire Resistance I for 5m.",
   "environment": "*",
   "license": "Unlicense",
-  "icon": "assets/overpowered_again/icon.png",
+  "icon": "assets/overpowered_again/textures/item/enchanted_golden_apple_legacy.png",
+  "entrypoints": {
+    "main": ["com.koutakutenn.overpoweredagain.OverpoweredAgain"],
+    "modmenu": ["com.koutakutenn.overpoweredagain.client.ModMenuIntegration"]
+  },
+  "suggests": { "modmenu": ">=20.0.2" },
   "mixins": ["overpowered_again.mixins.json"],
   "depends": {
     "fabricloader": ">=0.19.5",

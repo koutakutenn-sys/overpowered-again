@@ -1,0 +1,18 @@
+{
+  "criteria": {
+    "craft_enchanted_golden_apple": {
+      "trigger": "minecraft:recipe_crafted",
+      "conditions": { "recipe_id": "overpowered_again:enchanted_golden_apple" }
+    }
+  },
+  "display": {
+    "icon": { "id": "minecraft:enchanted_golden_apple" },
+    "title": { "translate": "advancements.overpowered_again.overpowered.title" },
+    "description": { "translate": "advancements.overpowered_again.overpowered.description" },
+    "frame": "challenge",
+    "background": "overpowered_again:textures/gui/advancements/missingno.png",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  }
+}

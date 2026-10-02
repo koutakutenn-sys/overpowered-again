@@ -7,12 +7,14 @@ base { archivesName = 'overpowered-again' }
 repositories {
     mavenCentral()
     maven { url = 'https://maven.fabricmc.net/' }
+    maven { url = 'https://maven.terraformersmc.com/releases/' }
 }
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     // The loader has to be on the runtime classpath as well, otherwise KnotServer is missing when
     // the development server starts; it is not packaged into the built jar.
     implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    compileOnly "com.terraformersmc:modmenu:20.0.2"
     // Loader alone does not mount assets/data. Bundle the resource loader and its base module.
     implementation include("net.fabricmc.fabric-api:fabric-resource-loader-v1:2.0.13+9edec1269e")
     implementation include("net.fabricmc.fabric-api:fabric-api-base:2.0.4+ece063239e")
@@ -59,12 +61,21 @@ loom {
             name 'Overpowered Again Integration Tests'
             source sourceSets.integrationTest
             runDir integrationTestDirectory
+            vmArg "-Doverpowered_again.test.externalRecipe=${providers.gradleProperty('integrationExternalRecipe').orElse('false').get()}"
         }
     }
 }
 tasks.named('runIntegrationTest') {
     doFirst {
         mkdir integrationTestDirectory
+        def compatibilityMods = providers.gradleProperty('integrationModsDirectory').orNull
+        if (compatibilityMods != null) {
+            copy {
+                from file(compatibilityMods)
+                include '*.jar'
+                into "${integrationTestDirectory}/mods"
+            }
+        }
         copy {
             from 'test-server.properties'
             into integrationTestDirectory
@@ -72,6 +83,14 @@ tasks.named('runIntegrationTest') {
         }
         if (providers.gradleProperty('acceptMinecraftEula').orNull == 'true') {
             file("${integrationTestDirectory}/eula.txt").text = 'eula=true\n'
+        }
+        // Isolated configs exercise both policies without touching the user's config.
+        mkdir "${integrationTestDirectory}/config"
+        def legacyRecipe = providers.gradleProperty('integrationLegacyRecipe').orNull
+        if (legacyRecipe != null) {
+            if (!(legacyRecipe in ['true', 'false'])) throw new GradleException('integrationLegacyRecipe must be true or false')
+            file("${integrationTestDirectory}/config/overpowered_again.json").text =
+                    "{\"legacyRecipe\":${legacyRecipe},\"legacyTexture\":true}\n"
         }
         logger.lifecycle("Integration test directory: ${integrationTestDirectory}")
     }

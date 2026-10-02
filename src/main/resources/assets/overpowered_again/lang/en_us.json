@@ -1,5 +1,15 @@
 {
   "overpowered_again.description": "Regeneration IV (30s), Absorption IV (2m), Resistance I (5m) and Fire Resistance I (5m) from an enchanted golden apple.",
   "advancements.overpowered_again.overpowered_again.title": "Overpowered Again",
-  "advancements.overpowered_again.overpowered_again.description": "Eat an enchanted golden apple"
+  "advancements.overpowered_again.overpowered_again.description": "Eat an enchanted golden apple",
+  "overpowered_again.config.title": "Overpowered Again settings",
+  "overpowered_again.config.recipe": "1. Legacy enchanted golden apple recipe: %s",
+  "overpowered_again.config.texture": "2. Enchanted golden apple texture: %s",
+  "overpowered_again.config.legacy": "Legacy",
+  "overpowered_again.config.modern": "Modern",
+  "overpowered_again.config.serverNote": "Multiplayer recipes are controlled by the server.",
+  "overpowered_again.config.saveError": "Could not save settings. See the log.",
+  "overpowered_again.config.reloadError": "Recipe reload failed. Reopen the world.",
+  "advancements.overpowered_again.overpowered.title": "Overpowered",
+  "advancements.overpowered_again.overpowered.description": "Craft an enchanted golden apple"
 }
